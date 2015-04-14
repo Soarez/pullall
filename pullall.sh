@@ -78,6 +78,11 @@ do
     git merge origin/$branch_name
   fi
 
+  if ! [ -f package.json ]; then
+    cd ..
+    continue
+  fi
+
   if (( do_npm_install )); then
     echo -e "\x1B[1;34mUpdating dependencies\x1B[0m"
     npm install --loglevel error
@@ -111,7 +116,7 @@ if (( do_npm_link )); then
       fi
 
       dependency_folder=$(basename $(readlink $npm_root/$dependency_name))
-      echo -e "\x1B[1;34mLinking \x1B[1;36m#$module_folder\x1B[0m to \x1B[1;36m#$dependency_folder\x1B[0m \x1B[0m"
+      echo -e "\x1B[1;34mLinking \x1B[1;36m$module_folder\x1B[0m to \x1B[1;36m$dependency_folder\x1B[0m \x1B[0m"
       npm link $dependency_name --quiet 1>/dev/null
     done
 
